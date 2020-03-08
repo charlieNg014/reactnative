@@ -1,10 +1,11 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import Icon from "react-native-vector-icons/MaterialIcons"
 
 const Testing = () => {
     return (
-        <View>
-            <Text>Testing</Text>
+        <View style={{marginTop: 100}}>
+            
         </View>
     )
 }

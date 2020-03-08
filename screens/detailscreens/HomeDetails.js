@@ -4,12 +4,13 @@ import {Button, Block, Input, Text} from "../../components"
 import {theme} from "../../constants"
 import { FlatList } from 'react-native-gesture-handler'
 const { width, height } = Dimensions.get("window");
+import {useDispatch} from 'react-redux'
+import {getProductID} from "../../redux"
 
 
 const HomeDetails = ({navigation}) => {
     ///define data
     const [productList] = useState([
-        {price: "10.99", image: require('../../assets/bake/bake1.png'), title: "The Bagel", availability: true, id: "1" },
         {price: "8.99",image: require('../../assets/bake/bake2.png'), title: "Crossbed Bun", availability: true, id: "2" },
         {price: "12.99",image: require('../../assets/bake/bake3.png'), title: "Cookie Crumble", availability: true, id: "3" },
         {price: "6.99",image: require('../../assets/bake/cake1.png'), title: "Sweeties Pie", availability: true, id: "4" },
@@ -83,76 +84,87 @@ const HomeDetails = ({navigation}) => {
         );
       }
 
+      const dispatch = useDispatch();
+
     return (
         <>
-        {/* Slidweshow  */}
-            <Block>
-                <View style = {{paddingTop: 10}}>
-                    {renderIllustrations()}
-                    {renderSteps()}
-                </View>
-                <View style = {{width: "80%", alignSelf: "center"}}>
-                    <Text>
-                        I always put all of my heart, my passion to every single bake I make - Daniel 
-                    </Text>
-                </View>
-            </Block>
-        {/* Products */}
-            <Block>
-                <View style = {{
-                    alignItems: "center"
-                }}>
-                    <Text style = {{
-                        alignContent: "center",
-                        fontSize: 20,
-                        marginBottom: 15
+        <ScrollView>
+            <View style = {{backgroundColor: "#00ffc4"}}>
+                <Block>
+                    <View style = {{paddingTop: 10}}>
+                        {renderIllustrations()}
+                        {renderSteps()}
+                    </View>
+                    <View style = {{width: "80%", alignSelf: "center"}}>
+                        <Text style = {{
+                            fontSize: 15,
+                            textAlign: "center",
+                            paddingTop: 10
+                        }}>
+                            I always put all of my heart, my passion to every single bake I make - Daniel 
+                        </Text>
+                    </View>
+                </Block>
+                {/* Products */}
+                <Block>
+                    <View style = {{
+                        alignItems: "center"
                     }}>
-                        What's New
-                    </Text>
-                </View>
-                <View style = {{width: "100%"}}>
-                    <FlatList
-                        numColumns = {1}
-                        keyExtractor = {(item) => item.id}
-                        data={productList}
-                        horizontal 
-                        renderItem={({ item }) => (
-                            <View style = {styles.productmain}>
-                               <View style = {styles.box}>
-                                    {/* <View style={styles.text}> */}
-                                        <View style = {styles.insidebox}>
-                                            <Button
-                                                style = {styles.productdisplay}
-                                                onPress = {() => navigation.navigate("ProductDetails")}
-                                            >
-                                            <Image 
-                                                style = {styles.image}
-                                                source={item.image}
-                                            />
-                                            <Text style = {{textAlign: 'center', fontWeight: "bold", paddingBottom: 5, paddingTop: 10}}>
-                                                {item.title}
-                                            </Text>
-                                            <Text style = {{textAlign: 'center', color: "grey"}}>
-                                                ${item.price}
-                                            </Text>           
-                                            </Button>
-                                        </View>
+                        <Text style = {{
+                            alignContent: "center",
+                            fontSize: 20,
+                            marginBottom: 15
+                        }}>
+                            What's New
+                        </Text>
+                    </View>
+                    <View style = {{width: "100%"}}>
+                        <FlatList
+                            numColumns = {1}
+                            keyExtractor = {(item) => item.id}
+                            data={productList}
+                            horizontal 
+                            renderItem={({ item }) => (
+                                <View style = {styles.productmain}>
+                                    <View style = {styles.box}>
+                                        {/* <View style={styles.text}> */}
+                                            <View style = {styles.insidebox}>
+                                                <Button
+                                                    style = {styles.productdisplay}
+                                                    onPress = {() => {
+                                                        navigation.navigate("ProductDetails");
+                                                        dispatch(getProductID(item.id));
+                                                    }}
+                                                >
+                                                <Image 
+                                                    style = {styles.image}
+                                                    source={item.image}
+                                                />
+                                                <Text style = {{textAlign: 'center', fontWeight: "bold", paddingBottom: 5, paddingTop: 10}}>
+                                                    {item.title}
+                                                </Text>
+                                                <Text style = {{textAlign: 'center', color: "grey"}}>
+                                                    ${item.price}
+                                                </Text>           
+                                                </Button>
+                                            </View>
                                     </View>
                                 </View>
-                            // </View>
-                        )}
-                        />
-                </View>
-            </Block>
-        {/* Recipes  */}
-        <Block>
+                                // </View>
+                            )}
+                            />
+                    </View>
+                </Block>
+            {/* Recipes  */}
+            <Block>
                 <View style = {{
                     alignItems: "center",
                 }}>
                     <Text style = {{
                         alignContent: "center",
                         fontSize: 20,
-                        marginBottom: 15
+                        marginBottom: 15, 
+                        marginTop: 20
                     }}>
                         Catalogues & Recipes
                     </Text>
@@ -191,6 +203,8 @@ const HomeDetails = ({navigation}) => {
                         />
                 </View>
             </Block>
+        </View>
+        </ScrollView> 
         </>
     )
 }

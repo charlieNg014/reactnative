@@ -23,9 +23,9 @@ const MainScreen = () => {
                   ? 'ios-home'
                   : "ios-home"
               } else if (route.name === 'RECIPES') {
-                iconName = focused ? 'ios-recipes' : 'ios-recipes';
+                iconName = focused ? 'ios-contact' : 'ios-contact';
               } else if (route.name === "PRODUCTS") {
-                  iconName = focused ? 'ios-cakes' : 'ios-cakes'
+                  iconName = focused ? 'ios-contact' : 'ios-contact'
               } else if (route.name === "FAVOURITES") {
                   iconName = focused ? 'ios-heart': 'ios-heart'
               } else if (route.name === "MYCART") {
@@ -55,10 +55,10 @@ const MainScreen = () => {
                 name = "PRODUCTS"
                 component = {products}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
                 name = "FAVOURITES"
                 component = {favourites}
-            />  
+            />   */}
             <Stack.Screen
                 name = "MYCART"
                 component = {mycart}

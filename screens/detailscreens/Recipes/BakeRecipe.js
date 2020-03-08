@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { StyleSheet, View, Image} from 'react-native'
+import { StyleSheet, View, Image, ScrollView} from 'react-native'
 import {Button, Block, Input, Text} from "../../../components"
 import {theme} from "../../../constants"
 import { FlatList } from 'react-native-gesture-handler'
@@ -17,42 +17,48 @@ const BakeRecipe = ({navigation}) => {
 
     return (
      <>
-     <View>
-         <Text style = {styles.maintext}>
-             Recipe Generator
-         </Text>
-     </View>
-    <View style = {{width: "100%"}}>
-        <FlatList
-            numColumns = {2}
-            keyExtractor = {(item) => item.id}
-            data={productList}
-            horizontal = {false}
-            renderItem={({ item }) => (
-                <View style = {styles.productmain}>
-                    <View style = {styles.box}>
-                        <View style = {styles.insidebox}>
-                            <Button
-                                style = {styles.productdisplay}
-                                onPress = {() => navigation.navigate("RecipeDetails")}
-                            >
-                            <Image 
-                                style = {styles.image}
-                                source={item.image}
-                            />
-                            <Text style = {{textAlign: 'center', fontWeight: "bold", paddingBottom: 5, paddingTop: 10}}>
-                                {item.title}
-                            </Text>
-                            <Text style = {{textAlign: 'center', color: "grey"}}>
-                                ${item.price}
-                            </Text>           
-                            </Button>
-                        </View>
-                    </View>
-                </View>
-            )}
-            />
-    </View>
+     <ScrollView>
+         <View style = {{backgroundColor: "lightgreen"}}>
+            <View>
+                <Text style = {styles.maintext}>
+                    Recipe Generator
+                </Text>
+            </View>
+            <View style = {{width: "100%"}}>
+                <FlatList
+                    numColumns = {2}
+                    keyExtractor = {(item) => item.id}
+                    data={productList}
+                    // horizontal = {false}
+                    renderItem={({ item }) => (
+                        <ScrollView>
+                            <View style = {styles.productmain}>
+                                <View style = {styles.box}>
+                                    <View style = {styles.insidebox}>
+                                        <Button
+                                            style = {styles.productdisplay}
+                                            onPress = {() => navigation.navigate("RecipeDetails")}
+                                        >
+                                        <Image 
+                                            style = {styles.image}
+                                            source={item.image}
+                                        />
+                                        <Text style = {{textAlign: 'center', fontWeight: "bold", paddingBottom: 5, paddingTop: 10}}>
+                                            {item.title}
+                                        </Text>
+                                        <Text style = {{textAlign: 'center', color: "grey"}}>
+                                            ${item.price}
+                                        </Text>           
+                                        </Button>
+                                    </View>
+                                </View>
+                            </View>
+                        </ScrollView>
+                    )}
+                    />
+            </View>
+        </View>
+    </ScrollView>
     </>
     )
 }
@@ -82,8 +88,8 @@ const styles = StyleSheet.create({
         height: 140,
         marginTop: 9,
         marginRight: 35,
-        width: 180,
-        marginLeft: 3
+        width: 160,
+        marginLeft: 5
         // marginRight: 10
     },
     maintext: {

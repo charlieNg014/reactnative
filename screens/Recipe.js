@@ -13,33 +13,12 @@ import CakeRecipe from "./detailscreens/Recipes/CakeRecipe"
 
 const RecipeTabStack = createStackNavigator();
 
-const recipeTab = ({navigation}) => {
-    return (
-        <Container style = {{marginTop: -60}}>
-            <Header hasTabs/>
-                <Tabs renderTabBar={()=> <ScrollableTab />}>
-            <Tab heading="Bakerecipe">
-                <BakeRecipe 
-                    navigation = {navigation} 
-                />
-            </Tab>
-            <Tab heading="Cakerecipe">
-                <CakeRecipe 
-                    navigation = {navigation}
-                />
-            </Tab>
-            </Tabs>
-        </Container>
-    )
-}
-
-
 const Recipe = () => {
     return (
         <RecipeTabStack.Navigator>
             <RecipeTabStack.Screen
                 name = "RECIPES"
-                component = {recipeTab}
+                component = {BakeRecipe}
             />
             <RecipeTabStack.Screen
                 name = "RecipeDetails"
