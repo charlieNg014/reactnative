@@ -3,20 +3,27 @@ import { StyleSheet, View, Image} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import {Button, Block, Input, Text} from "../../../components"
 import {theme} from "../../../constants"
+import {useSelector} from "react-redux"
+import {recipeList} from "../../../data"
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 const RecipeDetails = () => {
-    const [productList]  = useState([
-        {id: "1", title: "I", number: "1"},
-        {id: "2", title: "am", number: "2"},
-        {id: "3", title: "Charlie", number: "3"}
-    ])
+    //get the filtered cake/bake
+    const productID = useSelector(state => state.getProductID.productID);
+    // console.log(productID);
+
+    const displayProduct = recipeList.find((filterProduct) => filterProduct.id === productID);
+    // console.log(displayProduct);
+    
+    //change the tab
+    const [showIng, setShowIng] = useState(true);
     return (
         <>
             <ScrollView>
                 {/* // Image  */}
                 <View style = {styles.image}>
                     <Image 
-                        // source = {displayProduct.image}
+                        source = {displayProduct.image}
                         style = {{width: "50%", height: "100%"}}
                     />
                 </View>
@@ -26,7 +33,7 @@ const RecipeDetails = () => {
                         marginTop: 20,
                         fontSize: 30
                     }}>
-                        {/* {displayProduct.title} */}
+                        {displayProduct.title}
                     </Text> 
                     <Text style = {{
                             borderBottomColor: 'red',
@@ -49,7 +56,7 @@ const RecipeDetails = () => {
                         borderRadius: 10
                     }}>
                         <Text shadow>
-                            3
+                            {displayProduct.serving}
                         </Text>
                         <Text shadow bold>
                             Servings
@@ -70,7 +77,7 @@ const RecipeDetails = () => {
                         borderRadius: 10
                     }}>
                         <Text shadow>
-                            8
+                            {displayProduct.noOfIngredient}
                         </Text>
                         <Text shadow bold>
                             Ingredients
@@ -79,15 +86,19 @@ const RecipeDetails = () => {
                 </View>
                 <View style = {styles.details}>
                     <View style={styles.button1}>
-                        <Button disabled style = {{
-                            height: "100%",
-                            alignItems: "center",
-                            borderRightColor: "red",
-                            borderRadius: 20,
-                            width: "50%",
-                            borderRadius: 0,
-                            borderRadius: 0
-                        }}>
+                        <Button style = {{
+                                height: "100%",
+                                alignItems: "center",
+                                borderRightColor: "red",
+                                borderRadius: 20,
+                                width: "50%",
+                                borderRadius: 0,
+                                borderRadius: 0
+                            }}
+                            onPress = {() => {
+                                setShowIng(true);
+                            }}
+                        >
                             <Text shadow bold>
                                 Ingredients
                             </Text>
@@ -98,20 +109,25 @@ const RecipeDetails = () => {
                             borderLeftWidth:1,
                             borderColor: "lightblue"
                         }}/> 
-                        <Button disabled style = {{
+                        <Button style = {{
                             alignItems: "center",
                             borderRightColor: "red",
                             borderRadius: 20,
                             width: "50%",
                             borderRadius: 0,
                             height: "100%"
-                        }}>
+                        }}
+                            onPress = {() => {
+                                setShowIng(false);
+                            }}
+                        >
                             <Text shadow bold>
                                 Instructions
                             </Text>
                         </Button> 
                     </View>
-                    {productList.map((item, index) => {
+                    {showIng ? 
+                    (displayProduct.ingredient).map((item, index) => {
                         return (
                             <>
                             <View style={styles.button1}>
@@ -120,35 +136,79 @@ const RecipeDetails = () => {
                                     alignItems: "center",
                                     borderRightColor: "red",
                                     borderRadius: 20,
-                                    width: "65%",
+                                    width: "50%",
+                                    borderRadius: 0,
+                                    borderRadius: 0,
+                                    backgroundColor: "whitesmoke"
+                                }}>
+                                <Text shadow bold style = {{alignSelf: "center",  fontSize: RFValue(5, 300), textAlign: "center"}}>
+                                    {item.amount}
+                                </Text>
+                                </Button>
+                                <Button disabled style = {{
+                                    alignItems: "center",
+                                    borderRightColor: "red",
+                                    borderRadius: 20,
+                                    width: "50%",
+                                    borderRadius: 0,
+                                    height: "100%",
+                                    backgroundColor: "whitesmoke"
+                                }}>
+                                <Text shadow bold style = {{alignSelf: "center", fontSize: RFValue(5, 300), textAlign: "center"}}>
+                                    {item.name}
+                                </Text>
+                                </Button>
+                            </View>
+                            <Text style = {{
+                                    // borderBottomColor: 'red',
+                                    // borderBottomWidth: 1, 
+                                    width: 80,
+                                    fontWeight: "bold", 
+                                    marginTop: -15
+                                }}
+                            ></Text>
+                            </>
+                        )
+                    })
+
+                    : (displayProduct.instruction).map((item, index) => {
+                        return (
+                            <>
+                            <View style={styles.button1}>
+                                <Button disabled style = {{
+                                    height: "100%",
+                                    alignItems: "center",
+                                    borderRightColor: "red",
+                                    borderRadius: 20,
+                                    width: "20%",
                                     borderRadius: 0,
                                     borderRadius: 0,
                                     backgroundColor: "whitesmoke"
                                 }}>
                                 <Text shadow bold style = {{alignSelf: "flex-start", marginLeft: 20}}>
-                                    {item.id}
+                                    Step {item.step}
                                 </Text>
                                 </Button>
-                                {/* <View style={{
-                                    borderStyle: "dashed",
-                                    height:48,
-                                    borderLeftWidth:1,
-                                    borderColor: "lightblue"
-                                }}/> */}
                                 <Button disabled style = {{
                                     alignItems: "center",
                                     borderRightColor: "red",
                                     borderRadius: 20,
-                                    width: "35%",
+                                    width: "80%",
                                     borderRadius: 0,
                                     height: "100%",
                                     backgroundColor: "whitesmoke"
                                 }}>
-                                <Text shadow bold style = {{alignSelf: "flex-start", marginLeft: 5}}>
-                                    {item.title}
+                                <Text shadow bold style = {{alignSelf: "flex-start", marginLeft: 30, fontSize: RFValue(5, 500)}}>
+                                    {item.details}
                                 </Text>
                                 </Button>
                             </View>
+                            <Text style = {{
+                                    width: 50,
+                                    fontWeight: "bold", 
+                                    marginTop: -15
+                                }}
+                            ></Text>
                             </>
                         )
                     })}
@@ -201,7 +261,7 @@ const styles = StyleSheet.create({
     },
     details: {
         backgroundColor: "lightblue",
-        height: 300,
+        height: 310,
         borderRadius: 10,
         marginLeft: 10,
         marginRight: 10,

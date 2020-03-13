@@ -1,1 +1,2 @@
 export const ADD_CART = "ADD_CART";
+export const CHANGE_INCART_STATE = "CHANGE_INCART_STATE"; 

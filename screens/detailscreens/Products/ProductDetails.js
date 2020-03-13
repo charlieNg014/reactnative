@@ -8,29 +8,75 @@ import { ScrollView } from 'react-native-gesture-handler';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import {TouchableOpacity } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux'
-import {getProductID, addToCart} from "../../../redux"
+import {getProductID, addToCart, updateInCart} from "../../../redux"
+import {productList} from "../../../data"
 
 
 const ProductTest = ({navigation}) => {
     const dispatch = useDispatch();
-    ///define data for testing 
-    const [product] = useState([
-        {price: "10.99", image: require("../../../assets/bake/bake2.png"), title: "The Bagel", availability: true, id: "1", type: "bake" }
-    ])
-
-    const [productList] = useState([
-        {price: "10.99", image: require("../../../assets/bake/bake1.png"), title: "The Bagel", availability: true, id: "1", type: "bake" },
-        {price: "8.99",image: require('../../../assets/bake/bake2.png'), title: "Crossbed Bun", availability: true, id: "2", type: "bake"},
-        {price: "12.99",image: require('../../../assets/bake/bake3.png'), title: "Cookie Crumble", availability: true, id: "3", type: "bake" },
-        {price: "6.99",image: require('../../../assets/bake/cake1.png'), title: "Sweeties Pie", availability: true, id: "4", type: "cake" },
-        {price: "9.99",image: require('../../../assets/bake/cake2.png'), title: "Patty Cakes", availability: true, id: "5", type: "cake" },
-        {price: "4.99",image: require('../../../assets/bake/cake3.png'), title: "Petite Sweets", availability: true, id: "6", type: "cake" }
-    ])
     const productID = useSelector(state => state.getProductID.productID);
     // console.log(testingData);
 
+    //update the array of product
+    // console.log(productList);
+
+    const updatedProductList = useSelector(state => state.addToCart.productCart);
+    // console.log(updatedProductList);
+
+    // let [displayProductList, setDisplayProductList] = useState([]);
+    // // console.log(productList);
+    // setDisplayProductList(displayProductList = productList)
+
+    //get the latest productlist
+    const latestProductList = useSelector(state => state.updateInCart.inCartProductList);
+    console.log(latestProductList);
+
+    if (latestProductList.length === 0) {
+        dispatch(updateInCart(productList));
+    } else {
+        // console.log(productList);
+    }
+
+    for (var i = 0; i < updatedProductList.length; i++) {
+        // console.log(updatedProductList[i].id);
+
+        for (var y = 0; y < productList.length; y++) {
+            if (updatedProductList[i].id === productList[y].id) {
+                // console.log(productList[y])
+                productList.splice(y, 1, updatedProductList[i]);
+                // console.log(productList);
+            }
+        }
+    }
+
+    //changing the state of cart for specific product
+    let [newDisplayProduct, setNewDisplayProduct] = useState({});
     const displayProduct = productList.find((filterProduct) => filterProduct.id === productID);
     // console.log(displayProduct);
+
+    const changeCartState = (requiredItem) => {
+        let id = requiredItem.id;
+        let price = requiredItem.price;
+        let image = requiredItem.image;
+        let title = requiredItem.title;
+        let availability = requiredItem.availability;
+        let amount = requiredItem.amount;
+        let inCart = true;
+
+        setNewDisplayProduct(
+            newDisplayProduct = {
+                id,
+                price,
+                image,
+                title,
+                availability,
+                amount,
+                inCart
+            }
+        )
+
+        // console.log(newDisplayProduct);
+    }
 
     const [heartColor, setHeartColor] = useState(false); 
     const setColor = (requiredColor) => {
@@ -54,7 +100,6 @@ const ProductTest = ({navigation}) => {
     const hideAlert = () => {
         setAlert(false)
     }
-
 
     return (
         <>
@@ -119,10 +164,11 @@ const ProductTest = ({navigation}) => {
                 borderLeftWidth:1,
                 borderColor: "grey"
             }}/>
-            {favShow 
+            {!displayProduct.inCart 
             ? <Button style = {styles.favbutton} onPress = {() => {
                 showAlert();
-                dispatch(addToCart(displayProduct));
+                changeCartState(displayProduct);
+                dispatch(addToCart(newDisplayProduct));
             }}
             >
             <Text>

@@ -6,19 +6,10 @@ import { FlatList } from 'react-native-gesture-handler'
 import {useDispatch} from 'react-redux'
 import {getProductID} from "../../../redux"
 import getProductIDReducer from '../../../redux/getProductID/getIDReducer'
+import {productList} from "../../../data"
 
 const Bake = ({navigation}) => {
     const dispatch = useDispatch();
-     ///define data
-     const [productList] = useState([
-        {price: "10.99", image: require("../../../assets/bake/bake1.png"), title: "The Bagel", availability: true, id: "1", type: "bake" },
-        {price: "8.99",image: require('../../../assets/bake/bake2.png'), title: "Crossbed Bun", availability: true, id: "2", type: "bake"},
-        {price: "12.99",image: require('../../../assets/bake/bake3.png'), title: "Cookie Crumble", availability: true, id: "3", type: "bake" },
-        {price: "6.99",image: require('../../../assets/bake/cake1.png'), title: "Sweeties Pie", availability: true, id: "4", type: "cake" },
-        {price: "9.99",image: require('../../../assets/bake/cake2.png'), title: "Patty Cakes", availability: true, id: "5", type: "cake" },
-        {price: "4.99",image: require('../../../assets/bake/cake3.png'), title: "Petite Sweets", availability: true, id: "6", type: "cake" }
-    ])
-
     return (
      <>
      <ScrollView>

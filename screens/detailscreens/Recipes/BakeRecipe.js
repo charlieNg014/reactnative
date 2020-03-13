@@ -1,20 +1,13 @@
 import React, {useState} from 'react'
 import { StyleSheet, View, Image, ScrollView} from 'react-native'
-import {Button, Block, Input, Text} from "../../../components"
-import {theme} from "../../../constants"
+import {Button, Text} from "../../../components"
 import { FlatList } from 'react-native-gesture-handler'
+import {useDispatch} from 'react-redux'
+import {getProductID} from "../../../redux"
+import {productList} from "../../../data"
 
 const BakeRecipe = ({navigation}) => {
-     ///define data
-     const [productList] = useState([
-        {price: "10.99", image: require("../../../assets/bake/bake1.png"), title: "The Bagel", availability: true, id: "1", type: "bake" },
-        {price: "8.99",image: require('../../../assets/bake/bake2.png'), title: "Crossbed Bun", availability: true, id: "2", type: "bake"},
-        {price: "12.99",image: require('../../../assets/bake/bake3.png'), title: "Cookie Crumble", availability: true, id: "3", type: "bake" },
-        {price: "6.99",image: require('../../../assets/bake/cake1.png'), title: "Sweeties Pie", availability: true, id: "4", type: "cake" },
-        {price: "9.99",image: require('../../../assets/bake/cake2.png'), title: "Patty Cakes", availability: true, id: "5", type: "cake" },
-        {price: "4.99",image: require('../../../assets/bake/cake3.png'), title: "Petite Sweets", availability: true, id: "6", type: "cake" }
-    ])
-
+    const dispatch = useDispatch();
     return (
      <>
      <ScrollView>
@@ -37,7 +30,10 @@ const BakeRecipe = ({navigation}) => {
                                     <View style = {styles.insidebox}>
                                         <Button
                                             style = {styles.productdisplay}
-                                            onPress = {() => navigation.navigate("RecipeDetails")}
+                                            onPress = {() => {
+                                                navigation.navigate("RecipeDetails")
+                                                dispatch(getProductID(item.id));
+                                            }}
                                         >
                                         <Image 
                                             style = {styles.image}
@@ -45,10 +41,7 @@ const BakeRecipe = ({navigation}) => {
                                         />
                                         <Text style = {{textAlign: 'center', fontWeight: "bold", paddingBottom: 5, paddingTop: 10}}>
                                             {item.title}
-                                        </Text>
-                                        <Text style = {{textAlign: 'center', color: "grey"}}>
-                                            ${item.price}
-                                        </Text>           
+                                        </Text>          
                                         </Button>
                                     </View>
                                 </View>

@@ -4,27 +4,12 @@ import {Button, Block, Input, Text} from "../../components"
 import {theme} from "../../constants"
 import { FlatList } from 'react-native-gesture-handler'
 const { width, height } = Dimensions.get("window");
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {getProductID} from "../../redux"
+import {productList} from "../../data"
 
 
 const HomeDetails = ({navigation}) => {
-    ///define data
-    const [productList] = useState([
-        {price: "8.99",image: require('../../assets/bake/bake2.png'), title: "Crossbed Bun", availability: true, id: "2" },
-        {price: "12.99",image: require('../../assets/bake/bake3.png'), title: "Cookie Crumble", availability: true, id: "3" },
-        {price: "6.99",image: require('../../assets/bake/cake1.png'), title: "Sweeties Pie", availability: true, id: "4" },
-        {price: "9.99",image: require('../../assets/bake/cake2.png'), title: "Patty Cakes", availability: true, id: "5" },
-        {price: "4.99",image: require('../../assets/bake/cake3.png'), title: "Petite Sweets", availability: true, id: "6" }
-    ])
-
-    const [recipes] = useState([
-        {id: "1", title: "Recipe 1", type: "bake", image: ""},
-        {id: "2", title: "Recipe 2", type: "bake", image: ""},
-        {id: "3", title: "Recipe 3", type: "cake", image: ""},
-        {id: "4", title: "Recipe 4", type: "patisserie", image: ""}
-    ])
-
     const [illustrations] = useState([
         { id: 1, source: require("../../assets/bake/firstimage.png") }
        ,{ id: 2, source: require("../../assets/bake/secondimage.png") }
@@ -85,11 +70,11 @@ const HomeDetails = ({navigation}) => {
       }
 
       const dispatch = useDispatch();
-
+    
     return (
         <>
         <ScrollView>
-            <View style = {{backgroundColor: "#00ffc4"}}>
+            <View style = {{backgroundColor: "lightgreen"}}>
                 <Block>
                     <View style = {{paddingTop: 10}}>
                         {renderIllustrations()}
@@ -173,7 +158,7 @@ const HomeDetails = ({navigation}) => {
                     <FlatList
                         numColumns = {1}
                         keyExtractor = {(item) => item.id}
-                        data={recipes}
+                        data={productList}
                         horizontal 
                         renderItem={({ item }) => (
                             <View style = {styles.productmain}>
@@ -182,7 +167,10 @@ const HomeDetails = ({navigation}) => {
                                         <View style = {styles.insidebox}>
                                             <Button
                                                 style = {styles.productdisplay}
-                                                onPress = {() => navigation.navigate("RecipeDetails")}
+                                                onPress = {() => {
+                                                    navigation.navigate("RecipeDetails");
+                                                    dispatch(getProductID(item.id));
+                                                }}
                                             >
                                             <Image 
                                                 style = {styles.image}
@@ -191,9 +179,6 @@ const HomeDetails = ({navigation}) => {
                                             <Text style = {{textAlign: 'center', fontWeight: "bold", paddingBottom: 5, paddingTop: 10}}>
                                                 {item.title}
                                             </Text>
-                                            <Text style = {{textAlign: 'center', color: "grey"}}>
-                                                {item.type}
-                                            </Text>           
                                             </Button>
                                         </View>
                                     </View>

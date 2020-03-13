@@ -8,6 +8,8 @@ import favourites from "../screens/Favourites"
 import mycart from "../screens/Mycart"
 import Testing from "../screens/Testing"
 import { Ionicons } from '@expo/vector-icons';
+import Icon from "react-native-vector-icons/MaterialIcons"
+
 
 const Stack = createBottomTabNavigator();
 
@@ -20,22 +22,20 @@ const MainScreen = () => {
   
               if (route.name === 'HOME') {
                 iconName = focused
-                  ? 'ios-home'
-                  : "ios-home"
+                  ? 'home'
+                  : "home"
               } else if (route.name === 'RECIPES') {
-                iconName = focused ? 'ios-contact' : 'ios-contact';
+                iconName = focused ? 'book' : 'book';
               } else if (route.name === "PRODUCTS") {
-                  iconName = focused ? 'ios-contact' : 'ios-contact'
-              } else if (route.name === "FAVOURITES") {
-                  iconName = focused ? 'ios-heart': 'ios-heart'
+                  iconName = focused ? 'cake' : 'cake'
               } else if (route.name === "MYCART") {
-                  iconName = focused ? "ios-cart" : "ios-cart"
+                  iconName = focused ? "home" : 'home'
               } else if (route.name === "Test") {
-                  iconName = focused ? "ios-contact" : "ios-contact"
+                  iconName = focused ? "home" : "home"
               }
   
               // You can return any component that you like here!
-              return <Ionicons name={iconName} size={size} color={color} />;
+              return <Icon name={iconName} size={size} color={color} />;
             },
           })}
         tabBarOptions={{
