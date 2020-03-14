@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { StyleSheet, View, Image, Dimensions, Animated, ScrollView} from 'react-native'
+import { StyleSheet, View, Image, Dimensions, Animated, ScrollView, ImageBackground} from 'react-native'
 import {Button, Block, Input, Text} from "../../components"
 import {theme} from "../../constants"
 import { FlatList } from 'react-native-gesture-handler'
@@ -73,8 +73,9 @@ const HomeDetails = ({navigation}) => {
     
     return (
         <>
-        <ScrollView>
-            <View style = {{backgroundColor: "lightgreen"}}>
+        <ImageBackground source = {require("../../assets/bake/background.jpg")} style = {{width: "100%", height: "100%"}}>
+            <ScrollView>    
+                <View>
                 <Block>
                     <View style = {{paddingTop: 10}}>
                         {renderIllustrations()}
@@ -84,7 +85,8 @@ const HomeDetails = ({navigation}) => {
                         <Text style = {{
                             fontSize: 15,
                             textAlign: "center",
-                            paddingTop: 10
+                            paddingTop: 10, 
+                            color: "brown"
                         }}>
                             I always put all of my heart, my passion to every single bake I make - Daniel 
                         </Text>
@@ -98,7 +100,8 @@ const HomeDetails = ({navigation}) => {
                         <Text style = {{
                             alignContent: "center",
                             fontSize: 20,
-                            marginBottom: 15
+                            marginBottom: 15,
+                            fontWeight: "bold"
                         }}>
                             What's New
                         </Text>
@@ -149,7 +152,8 @@ const HomeDetails = ({navigation}) => {
                         alignContent: "center",
                         fontSize: 20,
                         marginBottom: 15, 
-                        marginTop: 20
+                        marginTop: 20,
+                        fontWeight: "bold"
                     }}>
                         Catalogues & Recipes
                     </Text>
@@ -189,7 +193,8 @@ const HomeDetails = ({navigation}) => {
                 </View>
             </Block>
         </View>
-        </ScrollView> 
+        </ScrollView>
+    </ImageBackground> 
         </>
     )
 }

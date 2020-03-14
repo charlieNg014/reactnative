@@ -17,19 +17,12 @@ const ProductTest = ({navigation}) => {
     const productID = useSelector(state => state.getProductID.productID);
     // console.log(testingData);
 
-    //update the array of product
-    // console.log(productList);
-
     const updatedProductList = useSelector(state => state.addToCart.productCart);
     // console.log(updatedProductList);
 
-    // let [displayProductList, setDisplayProductList] = useState([]);
-    // // console.log(productList);
-    // setDisplayProductList(displayProductList = productList)
-
     //get the latest productlist
     const latestProductList = useSelector(state => state.updateInCart.inCartProductList);
-    console.log(latestProductList);
+    // console.log(latestProductList);
 
     if (latestProductList.length === 0) {
         dispatch(updateInCart(productList));

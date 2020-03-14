@@ -7,8 +7,11 @@ import products from "../screens/Products"
 import favourites from "../screens/Favourites"
 import mycart from "../screens/Mycart"
 import Testing from "../screens/Testing"
+import Logout from "../screens/Logout"
 import { Ionicons } from '@expo/vector-icons';
 import Icon from "react-native-vector-icons/MaterialIcons"
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
+import FontAwesome from "react-native-vector-icons/FontAwesome"
 
 
 const Stack = createBottomTabNavigator();
@@ -24,13 +27,17 @@ const MainScreen = () => {
                 iconName = focused
                   ? 'home'
                   : "home"
+                return <MaterialCommunityIcons name = {iconName} color = {color} size = {size} />
               } else if (route.name === 'RECIPES') {
                 iconName = focused ? 'book' : 'book';
               } else if (route.name === "PRODUCTS") {
                   iconName = focused ? 'cake' : 'cake'
               } else if (route.name === "MYCART") {
                   iconName = focused ? "home" : 'home'
-              } else if (route.name === "Test") {
+                  return <MaterialCommunityIcons name = {iconName} color = {color} size = {size} />
+              } else if (route.name === "Logout") {
+                iconName = focused ? "menu" : "menu"
+              }else if (route.name === "Test") {
                   iconName = focused ? "home" : "home"
               }
   
@@ -62,6 +69,10 @@ const MainScreen = () => {
             <Stack.Screen
                 name = "MYCART"
                 component = {mycart}
+            />
+            <Stack.Screen
+                name = "Logout"
+                component = {Logout}
             />
             <Stack.Screen 
                 name = "Test"
