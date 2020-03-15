@@ -20,7 +20,7 @@ const VALID_EMAIL = "testing";
 const VALID_PASSWORD = "123"
 
 
-export default function Login({navigation}) {
+export default function Login({navigation, route}) {
     //define state via hooks
     let [email, setEmail] = useState(VALID_EMAIL);
     const [password, setPassword] = useState(VALID_PASSWORD);
@@ -99,7 +99,7 @@ export default function Login({navigation}) {
                         backgroundColor: "transparent"
                         
                     }}
-                        onPress = {() => navigation.navigate("ForgetPassword")}
+                        onPress = {() => navigation.navigate("ForgotPassword")}
                     >
                         <Text gray caption right style = {{
                             textDecorationLine: "underline",
@@ -118,8 +118,17 @@ export default function Login({navigation}) {
                     />
                     <Button 
                         gradient
-                        onPress = {() => onSubmit()}
-                        // onPress ={() => navigation.navigate("MainScreen")}
+                        // onPress = {() => onSubmit()}
+                        onPress={() => {
+                            navigation.reset ({
+                                index: 0,
+                                routes: [
+                                    {
+                                    name: "MainScreen"
+                                    }
+                                ]
+                                })
+                            }}
                     >
                         {loading 
                         ? <ActivityIndicator size = "small" color ="white" />
@@ -128,7 +137,7 @@ export default function Login({navigation}) {
                           </Text>}
                     </Button>
                     <Button style={{backgroundColor: "transparent", marginTop: 20}}
-                        onPress = {() => navigation.navigate("SignUp")}
+                        onPress = {() => navigation.navigate("Signup")}
                     >
                         <Text gray caption center>
                            Sign Up new account!

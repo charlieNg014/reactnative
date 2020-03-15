@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from "../screens/Home"
+import Login from "../screens/Login"
 import recipes from "../screens/Recipe"
 import products from "../screens/Products"
 import favourites from "../screens/Favourites"

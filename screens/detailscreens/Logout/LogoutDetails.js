@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Header, Content, ListItem, Text, Icon, Left, Body, Right, Switch, Row, List, Separator } from 'native-base';
-import {ScrollView, StyleSheet, View, Image} from "react-native"
+import {ScrollView, StyleSheet, View, Image, TouchableOpacity} from "react-native"
 import {Button} from "../../../components"
+import Modal, { ModalTitle, ModalContent, SlideAnimation, ModalFooter, ModalButton } from 'react-native-modals';
 
-export default function Logout () {
+export default function Logout ({navigation, route}) {
   let [noti, setNoti] = useState(true);
+  let [visibleModal, setVisibleModal] = useState(false);
     return (
     <ScrollView>
       <Container style ={{paddingTop:0}}>
@@ -124,14 +126,50 @@ export default function Logout () {
             <Separator bordered style ={styles.bottom}>
               <View style = {{paddingRight: 10, marginTop: -7}}>
                   <Icon active name="log-out" />
-              </View>
-              {/* <View> */}
-                  <Button style ={{backgroundColor: "transparent", marginTop: -15, width: 300}}>
-                      <Text style = {{fontSize: 20, marginLeft: 15}}>
-                        Logout
-                      </Text>
-                  </Button>
-              {/* </View> */}
+              </View> 
+              <Button style ={{backgroundColor: "transparent", marginTop: -15, width: 300}} onPress = {() => setVisibleModal(true)}>
+                  <Text style = {{fontSize: 20, marginLeft: 15}}>
+                    Logout
+                  </Text>
+              </Button>
+            <Modal.BottomModal
+              visible={visibleModal}
+              onTouchOutside={() => setVisibleModal(false)}
+              // modalStyle={{  }}
+              footer={
+                <ModalFooter>
+                  <ModalButton
+                    text="Yes"
+                    onPress={() => {
+                      navigation.reset ({
+                        index: 0,
+                        routes: [
+                          {
+                            name: "Login"
+                          }
+                        ]
+                      });
+                      setVisibleModal(false)
+                    }}
+                  />
+                  <ModalButton
+                    text="Cancel"
+                    onPress={() => {setVisibleModal(false)}}
+                  />
+                </ModalFooter>
+              }
+            >
+              <ModalContent
+                style={{
+                  backgroundColor: 'fff',
+                  // height: '40%',
+                }}
+              >
+                <Text style = {{alignSelf: "center"}}>
+                  Are you sure want to log out?
+                </Text>
+              </ModalContent>
+            </Modal.BottomModal>
             </Separator>
         </Content>
       </Container>

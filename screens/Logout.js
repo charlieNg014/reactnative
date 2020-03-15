@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
 import LogoutDetails from "./detailscreens/Logout/LogoutDetails"
+import Testing from "./Testing"
 
 
 const LogoutTabStack = createStackNavigator();
@@ -13,10 +14,10 @@ const Logout = () => {
                 name = "Menu"
                 component = {LogoutDetails}
             />
-            {/* <MyCartTabStack.Screen
-                name = "shopping"
-                component = {product}
-            /> */}
+            <LogoutTabStack.Screen
+                name = "Testing"
+                component = {Testing}
+            />
         </LogoutTabStack.Navigator>
     )
 }
