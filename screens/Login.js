@@ -25,7 +25,7 @@ export default function Login({navigation, route}) {
     let [email, setEmail] = useState(VALID_EMAIL);
     const [password, setPassword] = useState(VALID_PASSWORD);
     const [error] = useState([]);
-    const [loading, setLoading] = useState(false);
+    let [loading, setLoading] = useState(false);
     const [isCheck, setCheck] = useState(false);
 
     //define alert for wrong email/password
@@ -70,7 +70,7 @@ export default function Login({navigation, route}) {
 
     return (
         <>
-        <KeyboardAvoidingView style = {styles.login} behavior = "padding">
+        <KeyboardAvoidingView style = {styles.login}>
             <Block padding = {[0, theme.sizes.base * 2]}>
                 <Text h1 bold style={styles.loginbutton}>
                     Welcome back, 
@@ -120,14 +120,17 @@ export default function Login({navigation, route}) {
                         gradient
                         // onPress = {() => onSubmit()}
                         onPress={() => {
-                            navigation.reset ({
-                                index: 0,
-                                routes: [
-                                    {
-                                    name: "MainScreen"
-                                    }
-                                ]
-                                })
+                            setLoading(true);
+                            // setTimeout(() => {
+                                navigation.reset ({
+                                    index: 0,
+                                    routes: [
+                                        {
+                                        name: "MainScreen"
+                                        }
+                                    ]
+                                    })
+                            // }, 1000);
                             }}
                     >
                         {loading 

@@ -5,16 +5,19 @@ import { NavigationContainer } from '@react-navigation/native';
 import {Provider} from 'react-redux'
 import store from "./redux/store"
 import LoginNavigation from "./navigation/LoginNavigation"
+import {ProjectProvider} from "./context"
 
 
 export default function App() {
   return (
-    <Provider store = {store}>
-      <NavigationContainer>
-        <LoginNavigation />
-          {/* <MainScreen /> */}
-      </NavigationContainer>
-    </Provider>
+    <ProjectProvider>
+      <Provider store = {store}>
+        <NavigationContainer>
+          <LoginNavigation />
+            {/* <MainScreen /> */}
+        </NavigationContainer>
+      </Provider>
+    </ProjectProvider>
   );
 }
 

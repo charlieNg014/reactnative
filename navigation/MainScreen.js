@@ -75,10 +75,10 @@ const MainScreen = () => {
                 name = "Logout"
                 component = {Logout}
             />
-            <Stack.Screen 
+            {/* <Stack.Screen 
                 name = "Test"
                 component = {Testing}
-            />
+            /> */}
         </Stack.Navigator>
     )
 }

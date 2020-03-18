@@ -7,18 +7,30 @@ import {
     StyleSheet
 } from "react-native"
 
+import {Icon} from "native-base"
+import Modal, {
+    ModalTitle,
+    ModalContent,
+    ModalFooter,
+    ModalButton,
+    SlideAnimation,
+    ScaleAnimation,
+  } from 'react-native-modals';
+
 import {Button, Block, Input, Text} from "../../../components"
 import {theme} from "../../../constants"
 import InputValidation from 'react-native-input-validation'
 import { SocialIcon } from 'react-native-elements'
 import { TextInput } from 'react-native-gesture-handler'
 import AwesomeAlert from 'react-native-awesome-alerts';
+import { reset } from 'expo/build/AR';
 
 export default function ForgotPassword({navigation}) {
     //define state via hooks
     const [email, setEmail] = useState("");
     const [error] = useState([]);
     const [loading, setLoading] = useState(false);
+    let [resetPassword, setResetPassword]= useState(false);
 
     //define alert 
     const [alert, setAlert] = useState(false);
@@ -35,6 +47,9 @@ export default function ForgotPassword({navigation}) {
             console.log("PASSED");
             setLoading(true);
             showAlert();
+            setTimeout(() => {
+               setResetPassword(true);
+            }, 5000);
         }  else {
             console.log("FAILED")
         }
@@ -43,7 +58,7 @@ export default function ForgotPassword({navigation}) {
 
     return (
         <>
-        <KeyboardAvoidingView style = {styles.login} behavior = "padding"> 
+        <KeyboardAvoidingView style = {styles.login}> 
             <Block padding = {[0, theme.sizes.base * 2]}>
                 <Text h1 bold style={styles.loginbutton}>
                     Forgot Password
@@ -79,27 +94,34 @@ export default function ForgotPassword({navigation}) {
                     </View>
                 </Block>
             </Block>
+            <Modal
+                onTouchOutside={() => {
+                    setResetPassword(false);
+                    setLoading(false);
+                }}
+                width={0.9}
+                visible={resetPassword}
+                onSwipeOut={() => setResetPassword(false)}
+                modalAnimation={new ScaleAnimation()}
+                // onHardwareBackPress={() => {
+                //     console.log('onHardwareBackPress');
+                //     setResetPassword(false);
+                //     return true;
+                // }}
+                // modalTitle={
+                //     <ModalTitle
+                //     title="Modal - Scale Animation"
+                //     hasTitleBar={false}
+                //     />
+                // }
+                >
+                <ModalContent>
+                    <Text style = {{alignSelf: "center", textAlign: "center"}}>
+                        You have reset your password successfully. Please check you email!
+                    </Text>
+                </ModalContent>
+            </Modal>
         </KeyboardAvoidingView>
-        {/* <AwesomeAlert
-            show={alert}
-            showProgress={false}
-            title="Successed"
-            message="You have reset your password successfully !"
-            closeOnTouchOutside={true}
-            closeOnHardwareBackPress={false}
-            // showCancelButton={true}
-            // showConfirmButton={true}
-            cancelText="No, cancel"
-            confirmText="Re-enter"
-            confirmButtonColor="#DD6B55"
-            onCancelPressed={() => {
-            hideAlert();
-            }}
-            onConfirmPressed={() => {
-            hideAlert();
-            }}
-            style = {{justifyContent: "center"}}
-        /> */}
         </>
     );
   }

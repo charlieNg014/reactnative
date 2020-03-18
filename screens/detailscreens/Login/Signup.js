@@ -53,7 +53,7 @@ export default function Signup({navigation}) {
 
     return (
         <>
-        <KeyboardAvoidingView style = {styles.login} behavior = "padding"> 
+        <KeyboardAvoidingView style = {styles.login}> 
             <Block padding = {[0, theme.sizes.base * 2]}>
                 <Text h1 bold style={styles.loginbutton}>
                     Sign Up New Account

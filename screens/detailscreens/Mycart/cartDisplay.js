@@ -10,6 +10,7 @@ import {getProductID} from "../../../redux"
 import {changeAmount} from "../../../redux"
 import {updateCart, setInitialAmount, increaseAmount, decreaseAmount, updateInCart} from "../../../redux"
 import {productList} from "../../../data"
+import {ProjectConsumer} from "../../../context" 
 
 const cartDisplay = ({navigation}) => {
     const dispatch = useDispatch();
@@ -102,306 +103,326 @@ const cartDisplay = ({navigation}) => {
     }
     return (
         <>
-        <ScrollView>
-            {(mycart.length === 0 && newCart.length === 0) 
-            ?
-            <> 
-            <View style = {{width: "100%"}}>
-            <View style = {styles.empty}>
-                {/* <Image 
-                    source = {displayProduct.image}
-                    style = {{width: "50%", height: "100%"}}
-                /> */}
-                <Text style = {{marginTop: 15}}>
-                    Unfortunately, you don't have any products in cart
-                </Text>
-            </View>
-            <View style = {styles.image2}>
-                <View style = {{flexDirection: "row"}}>
-                    <Text style = {styles.text}>
-                        Subtotal: 
-                    </Text>
-                    <Text style = {styles.amount}>
-                        0
-                    </Text>
-                </View>
-                <View style = {{flexDirection: "row"}}>
-                    <Text style = {styles.text}>
-                        Taxes: 
-                    </Text>
-                    <Text style = {styles.amount}>
-                        0
-                    </Text>
-                </View>
-                <View style = {{flexDirection: "row"}}>
-                    <Text style = {styles.text}>
-                        Total: 
-                    </Text>
-                    <Text style = {styles.amount}>
-                        0
-                    </Text>
-                </View>
-            </View>
-            </View>
-            </> 
-            :(mycart.length !== 0 && newCart.length === 0) 
-            ? 
-            <>
-            <View style = {{width: "100%"}}>
-                <FlatList
-                    style = {{width: "100%"}}
-                    numColumns = {1}
-                    keyExtractor = {(item) => item.id}
-                    data={mycart}
-                    horizontal 
-                    renderItem={({ item }) => (
-                        <>
-                        <View style = {styles.image}>
-                            <Button transparent style = {{alignSelf: "flex-start", marginTop: 5, marginLeft: 10}} onPress = {() => {
-                               //remove from array
-                               dispatch(setInitialAmount(1));
-                               mycart.splice(mycart.indexOf(item), 1);
-                               dispatch(updateCart(mycart));
+        <ProjectConsumer>
+            {value => {
+                const  {
+                    listProduct,
+                    increaseAmount,
+                    decreaseAmount,
+                    removeProduct
+                } = value
 
-                               //set the state back to false
-                            //    console.log(item);
-                               changeCartStateAfter(item, productList);
-                            }}>
-                                <Icon name = "remove-circle" size = {20}/>
-                            </Button>
-                            <Image 
-                                source = {item.image}
-                                style = {{width: "70%", height: "50%", marginTop: -45}}
-                            />
-                            <Text style = {{
-                                    borderBottomColor: 'grey',
-                                    borderBottomWidth: 1, 
-                                    width: "100%",
-                                    fontWeight: "bold", 
-                                    marginTop: -15
-                                }}
-                            ></Text>
-                            <Text style = {styles.title}>
-                                {item.title}
+                console.log(listProduct);
+                return (
+                    <ScrollView>
+                        {(listProduct.length === 0 && newCart.length === 0) 
+                        ?
+                        <> 
+                        <View style = {{width: "100%"}}>
+                        <View style = {styles.empty}>
+                            {/* <Image 
+                                source = {displayProduct.image}
+                                style = {{width: "50%", height: "100%"}}
+                            /> */}
+                            <Text style = {{marginTop: 15}}>
+                                Unfortunately, you don't have any products in cart
                             </Text>
-                            <Text>
-                                ${item.price}
-                            </Text>
-                            <View style = {{flexDirection: "row", marginTop: 15}}>
-                                <Button light style = {{width: 35, justifyContent: "center"}} onPress = {() => {
-                                    if (amount > 1) {
-                                        // console.log(item.id)
-                                        // console.log(item)
-                                        getNewBake(item, 2, mycart, item.amount);
-                                        // console.log(dispatch(setInitialAmount(1)));
-                                        // dispatch(decreaseAmount());
-                                    }
-                                }}>
-                                    <Icon name = "remove" size = {25}/>
-                                </Button>
-                                <Button disabled style = {{width: 80, justifyContent: "center", backgroundColor: "white"}}> 
-                                    <Text>
-                                        {item.amount}
-                                        {/* {newAmount} */}
-                                    </Text>
-                                </Button>
-                                <Button light style = {{width: 35, justifyContent: "center"}} onPress = {() => {
-                                    if (amount <10) {
-                                    //    console.log(item.id);
-                                    //    console.log(item)
-                                       getNewBake(item, 2, mycart, item.amount);
-                                    //    console.log(dispatch(setInitialAmount(1)));
-                                    //    dispatch(increaseAmount());
-                                    }
-                                }}>
-                                    <Icon name = "add" size = {25}/>
-                                </Button>
+                        </View>
+                        <View style = {styles.image2}>
+                            <View style = {{flexDirection: "row"}}>
+                                <Text style = {styles.text}>
+                                    Subtotal: 
+                                </Text>
+                                <Text style = {styles.amount}>
+                                    0
+                                </Text>
+                            </View>
+                            <View style = {{flexDirection: "row"}}>
+                                <Text style = {styles.text}>
+                                    Taxes: 
+                                </Text>
+                                <Text style = {styles.amount}>
+                                    0
+                                </Text>
+                            </View>
+                            <View style = {{flexDirection: "row"}}>
+                                <Text style = {styles.text}>
+                                    Total: 
+                                </Text>
+                                <Text style = {styles.amount}>
+                                    0
+                                </Text>
                             </View>
                         </View>
-                        </>
-                    )}
-                />
-            </View>
-            <View style = {styles.image2}>
-                <View style = {{flexDirection: "row"}}>
-                    <Text style = {styles.text}>
-                        Subtotal: 
-                    </Text>
-                    <Text style = {styles.amount}>
-                        12
-                    </Text>
-                </View>
-                <View style = {{flexDirection: "row"}}>
-                    <Text style = {styles.text}>
-                        Taxes: 
-                    </Text>
-                    <Text style = {styles.amount}>
-                        12
-                    </Text>
-                </View>
-                <View style = {{flexDirection: "row"}}>
-                    <Text style = {styles.text}>
-                        Total: 
-                    </Text>
-                    <Text style = {styles.amount}>
-                        12
-                    </Text>
-                </View>
-            </View>
-            <Button success style = {styles.checkout}><Text style = {{alignSelf: "center", marginLeft: 5}}> Proceed to checkout </Text></Button> 
-            </>
-            : (mycart.length !== 0 && newCart.length !== 0) 
-            ? 
-            <>
-            <View style = {{width: "100%"}}>
-                <FlatList
-                    style = {{width: "100%"}}
-                    numColumns = {1}
-                    keyExtractor = {(item) => item.id}
-                    data={mycart}
-                    horizontal 
-                    renderItem={({ item }) => (
+                        </View>
+                        </> 
+                        :(listProduct.length !== 0 && newCart.length === 0) 
+                        ? 
                         <>
-                        <View style = {styles.image}>
-                            <Button transparent style = {{alignSelf: "flex-start", marginTop: 5, marginLeft: 10}} onPress = {() => {
-                                //get index 
-                                // console.log(mycart.indexOf(item));
-                                //remove from array
-                                dispatch(setInitialAmount(1));
-                                mycart.splice(mycart.indexOf(item), 1);
-                                dispatch(updateCart(item));      
-                                
-                                //change state back to false
-                                // console.log(item);
-                                changeCartStateAfter(item, productList);
-                            }}>
-                                <Icon name = "remove-circle" size = {20}/>
-                            </Button>
-                            <Image 
-                                source = {item.image}
-                                style = {{width: "70%", height: "50%", marginTop: -45}}
-                            />
-                            <Text style = {{
-                                    borderBottomColor: 'grey',
-                                    borderBottomWidth: 1, 
-                                    width: "100%",
-                                    fontWeight: "bold", 
-                                    marginTop: -15
-                                }}
-                            ></Text>
-                            <Text style = {styles.title}>
-                                {item.title}
-                            </Text>
-                            <Text>
-                                ${item.price}
-                            </Text>
-                            <View style = {{flexDirection: "row", marginTop: 15}}>
-                                <Button light style = {{width: 35, justifyContent: "center"}} onPress = {() => {
-                                    if (amount > 1) {
-                                    //    console.log(item.id);
-                                    //    console.log(item)
-                                        getNewBake(item, 2, mycart, item.amount);
-                                        // console.log(dispatch(setInitialAmount(2)));
-                                        // dispatch(decreaseAmount());
-                                        //replace the old one
+                        <View style = {{width: "100%"}}>
+                            <FlatList
+                                style = {{width: "100%"}}
+                                numColumns = {1}
+                                keyExtractor = {(item) => item.id}
+                                data={listProduct}
+                                horizontal 
+                                renderItem={({ item }) => (
+                                    <>
+                                    <View style = {styles.image}>
+                                        <Button transparent style = {{alignSelf: "flex-start", marginTop: 5, marginLeft: 10}} onPress = {() => {
+                                        //remove from array
+                                        dispatch(setInitialAmount(1));
+                                        mycart.splice(mycart.indexOf(item), 1);
+                                        dispatch(updateCart(mycart));
 
-                                    }
-                                }}>
-                                    <Icon name = "remove" size = {25}/>
-                                </Button>
-                                <Button disabled style = {{width: 80, justifyContent: "center", backgroundColor: "white"}}> 
-                                    <Text>
-                                        {item.amount}
-                                        {/* {newAmount} */}
-                                    </Text>
-                                </Button>
-                                <Button light style = {{width: 35, justifyContent: "center"}} onPress = {() => {
-                                    if (amount <10) {
-                                        // console.log(item.id);
-                                        // console.log(item)
-                                        getNewBake(item, 2, mycart, item.amount);
-                                        // console.log(dispatch(setInitialAmount(2)));
-                                        // dispatch(increaseAmount());
-                                    }
-                                }}>
-                                    <Icon name = "add" size = {25}/>
-                                </Button>
+                                        //set the state back to false
+                                        //    console.log(item);
+                                        changeCartStateAfter(item, productList);
+                                        removeProduct(item);
+                                        }}>
+                                            <Icon name = "remove-circle" size = {20}/>
+                                        </Button>
+                                        <Image 
+                                            source = {item.image}
+                                            style = {{width: "70%", height: "50%", marginTop: -45}}
+                                        />
+                                        <Text style = {{
+                                                borderBottomColor: 'grey',
+                                                borderBottomWidth: 1, 
+                                                width: "100%",
+                                                fontWeight: "bold", 
+                                                marginTop: -15
+                                            }}
+                                        ></Text>
+                                        <Text style = {styles.title}>
+                                            {item.title}
+                                        </Text>
+                                        <Text>
+                                            ${item.price * item.amount}
+                                        </Text>
+                                        <View style = {{flexDirection: "row", marginTop: 15}}>
+                                            <Button light style = {{width: 35, justifyContent: "center"}} onPress = {() => {
+                                                if (item.amount > 1) {
+                                                    // console.log(item.id)
+                                                    // console.log(item)
+                                                    decreaseAmount(item, listProduct);
+                                                    // getNewBake(item, 2, mycart, item.amount);
+                                                    // console.log(dispatch(setInitialAmount(1)));
+                                                    // dispatch(decreaseAmount());
+                                                }
+                                            }}>
+                                                <Icon name = "remove" size = {25}/>
+                                            </Button>
+                                            <Button disabled style = {{width: 80, justifyContent: "center", backgroundColor: "white"}}> 
+                                                <Text>
+                                                    {item.amount}
+                                                    {/* {newAmount} */}
+                                                </Text>
+                                            </Button>
+                                            <Button light style = {{width: 35, justifyContent: "center"}} onPress = {() => {
+                                                if (item.amount <10) {
+                                                //    console.log(item.id);
+                                                // console.log(item);
+                                                increaseAmount(item, listProduct);
+                                                // getNewBake(item, 2, mycart, item.amount);
+                                                //    console.log(dispatch(setInitialAmount(1)));
+                                                //    dispatch(increaseAmount());
+                                                }
+                                            }}>
+                                                <Icon name = "add" size = {25}/>
+                                            </Button>
+                                        </View>
+                                    </View>
+                                    </>
+                                )}
+                            />
+                        </View>
+                        <View style = {styles.image2}>
+                            <View style = {{flexDirection: "row"}}>
+                                <Text style = {styles.text}>
+                                    Subtotal: 
+                                </Text>
+                                <Text style = {styles.amount}>
+                                    12
+                                </Text>
+                            </View>
+                            <View style = {{flexDirection: "row"}}>
+                                <Text style = {styles.text}>
+                                    Taxes: 
+                                </Text>
+                                <Text style = {styles.amount}>
+                                    12
+                                </Text>
+                            </View>
+                            <View style = {{flexDirection: "row"}}>
+                                <Text style = {styles.text}>
+                                    Total: 
+                                </Text>
+                                <Text style = {styles.amount}>
+                                    12
+                                </Text>
                             </View>
                         </View>
+                        <Button success style = {styles.checkout}><Text style = {{alignSelf: "center", marginLeft: 5}}> Proceed to checkout </Text></Button> 
                         </>
-                    )}
-                />
-            </View>
-            <View style = {styles.image2}>
-                <View style = {{flexDirection: "row"}}>
-                    <Text style = {styles.text}>
-                        Subtotal: 
-                    </Text>
-                    <Text style = {styles.amount}>
-                        12
-                    </Text>
-                </View>
-                <View style = {{flexDirection: "row"}}>
-                    <Text style = {styles.text}>
-                        Taxes: 
-                    </Text>
-                    <Text style = {styles.amount}>
-                        12
-                    </Text>
-                </View>
-                <View style = {{flexDirection: "row"}}>
-                    <Text style = {styles.text}>
-                        Total: 
-                    </Text>
-                    <Text style = {styles.amount}>
-                        12
-                    </Text>
-                </View>
-            </View>
-            <Button success style = {styles.checkout}><Text style = {{alignSelf: "center", marginLeft: 5}}> Proceed to checkout </Text></Button> 
-            </>
-            :<>
-            <View style = {{width: "100%"}}>
-            <View style = {styles.empty}>
-                {/* <Image 
-                    source = {displayProduct.image}
-                    style = {{width: "50%", height: "100%"}}
-                /> */}
-                <Text style = {{marginTop: 15}}>
-                    Unfortunately, you don't have any products in cart
-                </Text>
-            </View>
-            </View>
-            <View style = {styles.image2}>
-                <View style = {{flexDirection: "row"}}>
-                    <Text style = {styles.text}>
-                        Subtotal: 
-                    </Text>
-                    <Text style = {styles.amount}>
-                        12
-                    </Text>
-                </View>
-                <View style = {{flexDirection: "row"}}>
-                    <Text style = {styles.text}>
-                        Taxes: 
-                    </Text>
-                    <Text style = {styles.amount}>
-                        12
-                    </Text>
-                </View>
-                <View style = {{flexDirection: "row"}}>
-                    <Text style = {styles.text}>
-                        Total: 
-                    </Text>
-                    <Text style = {styles.amount}>
-                        12
-                    </Text>
-                </View>
-            </View>
-            <Button success style = {styles.checkout}><Text style = {{alignSelf: "center", marginLeft: 5}}> Proceed to checkout </Text></Button> 
-            </>
-            }
-        </ScrollView>
+                        : (listProduct.length !== 0 && newCart.length !== 0) 
+                        ? 
+                        <>
+                        <View style = {{width: "100%"}}>
+                            <FlatList
+                                style = {{width: "100%"}}
+                                numColumns = {1}
+                                keyExtractor = {(item) => item.id}
+                                data={listProduct}
+                                horizontal 
+                                renderItem={({ item }) => (
+                                    <>
+                                    <View style = {styles.image}>
+                                        <Button transparent style = {{alignSelf: "flex-start", marginTop: 5, marginLeft: 10}} onPress = {() => {
+                                            //get index 
+                                            // console.log(mycart.indexOf(item));
+                                            //remove from array
+                                            dispatch(setInitialAmount(1));
+                                            mycart.splice(mycart.indexOf(item), 1);
+                                            dispatch(updateCart(item));      
+                                            
+                                            //change state back to false
+                                            // console.log(item);
+                                            changeCartStateAfter(item, productList);
+                                            removeProduct(item);
+                                        }}>
+                                            <Icon name = "remove-circle" size = {20}/>
+                                        </Button>
+                                        <Image 
+                                            source = {item.image}
+                                            style = {{width: "70%", height: "50%", marginTop: -45}}
+                                        />
+                                        <Text style = {{
+                                                borderBottomColor: 'grey',
+                                                borderBottomWidth: 1, 
+                                                width: "100%",
+                                                fontWeight: "bold", 
+                                                marginTop: -15
+                                            }}
+                                        ></Text>
+                                        <Text style = {styles.title}>
+                                            {item.title}
+                                        </Text>
+                                        <Text>
+                                            ${item.price * item.amount}
+                                        </Text>
+                                        <View style = {{flexDirection: "row", marginTop: 15}}>
+                                            <Button light style = {{width: 35, justifyContent: "center"}} onPress = {() => {
+                                                if (item.amount > 1) {
+                                                //    console.log(item.id);
+                                                //    console.log(item);
+                                                   decreaseAmount(item, listProduct);
+                                                    // getNewBake(item, 2, mycart, item.amount);
+                                                    // console.log(dispatch(setInitialAmount(2)));
+                                                    // dispatch(decreaseAmount());
+                                                    //replace the old one
+
+                                                }
+                                            }}>
+                                                <Icon name = "remove" size = {25}/>
+                                            </Button>
+                                            <Button disabled style = {{width: 80, justifyContent: "center", backgroundColor: "white"}}> 
+                                                <Text>
+                                                    {item.amount}
+                                                    {/* {newAmount} */}
+                                                </Text>
+                                            </Button>
+                                            <Button light style = {{width: 35, justifyContent: "center"}} onPress = {() => {
+                                                if (item.amount <10) {
+                                                    // console.log(item.id);
+                                                    // console.log(item);
+                                                    increaseAmount(item, listProduct);
+                                                    // getNewBake(item, 2, mycart, item.amount);
+                                                    // console.log(dispatch(setInitialAmount(2)));
+                                                    // dispatch(increaseAmount());
+                                                }
+                                            }}>
+                                                <Icon name = "add" size = {25}/>
+                                            </Button>
+                                        </View>
+                                    </View>
+                                    </>
+                                )}
+                            />
+                        </View>
+                        <View style = {styles.image2}>
+                            <View style = {{flexDirection: "row"}}>
+                                <Text style = {styles.text}>
+                                    Subtotal: 
+                                </Text>
+                                <Text style = {styles.amount}>
+                                    12
+                                </Text>
+                            </View>
+                            <View style = {{flexDirection: "row"}}>
+                                <Text style = {styles.text}>
+                                    Taxes: 
+                                </Text>
+                                <Text style = {styles.amount}>
+                                    12
+                                </Text>
+                            </View>
+                            <View style = {{flexDirection: "row"}}>
+                                <Text style = {styles.text}>
+                                    Total: 
+                                </Text>
+                                <Text style = {styles.amount}>
+                                    12
+                                </Text>
+                            </View>
+                        </View>
+                        <Button success style = {styles.checkout}><Text style = {{alignSelf: "center", marginLeft: 5}}> Proceed to checkout </Text></Button> 
+                        </>
+                        :<>
+                        <View style = {{width: "100%"}}>
+                        <View style = {styles.empty}>
+                            {/* <Image 
+                                source = {displayProduct.image}
+                                style = {{width: "50%", height: "100%"}}
+                            /> */}
+                            <Text style = {{marginTop: 15}}>
+                                Unfortunately, you don't have any products in cart
+                            </Text>
+                        </View>
+                        </View>
+                        <View style = {styles.image2}>
+                            <View style = {{flexDirection: "row"}}>
+                                <Text style = {styles.text}>
+                                    Subtotal: 
+                                </Text>
+                                <Text style = {styles.amount}>
+                                    12
+                                </Text>
+                            </View>
+                            <View style = {{flexDirection: "row"}}>
+                                <Text style = {styles.text}>
+                                    Taxes: 
+                                </Text>
+                                <Text style = {styles.amount}>
+                                    12
+                                </Text>
+                            </View>
+                            <View style = {{flexDirection: "row"}}>
+                                <Text style = {styles.text}>
+                                    Total: 
+                                </Text>
+                                <Text style = {styles.amount}>
+                                    12
+                                </Text>
+                            </View>
+                        </View>
+                        <Button success style = {styles.checkout}><Text style = {{alignSelf: "center", marginLeft: 5}}> Proceed to checkout </Text></Button> 
+                        </>
+                        }
+                    </ScrollView>
+                )
+            }}
+        </ProjectConsumer>
         </>
     )
 }
