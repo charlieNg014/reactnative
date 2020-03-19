@@ -1,4 +1,4 @@
-export  const productList = [
+export const productList = [
     {price: "8.99",image: require('./assets/bake/bake2.png'), title: "Crossbed Bun", availability: true, id: "2", amount: 1, inCart: false},
     {price: "12.99",image: require('./assets/bake/bake3.png'), title: "Cookie Crumble", availability: true, id: "3", amount: 1, inCart: false },
     {price: "6.99",image: require('./assets/bake/cake1.png'), title: "Sweeties Pie", availability: true, id: "4", amount: 1, inCart: false  },

@@ -7,6 +7,7 @@ const { width, height } = Dimensions.get("window");
 import {useDispatch, useSelector} from 'react-redux'
 import {getProductID} from "../../redux"
 import {productList} from "../../data"
+import { ProjectConsumer } from '../../context'
 
 
 const HomeDetails = ({navigation}) => {
@@ -70,131 +71,144 @@ const HomeDetails = ({navigation}) => {
       }
 
       const dispatch = useDispatch();
+    //   console.log(productList);
     
     return (
         <>
-        <ImageBackground source = {require("../../assets/bake/background.jpg")} style = {{width: "100%", height: "100%"}}>
-            <ScrollView>    
-                <View>
-                <Block>
-                    <View style = {{paddingTop: 10}}>
-                        {renderIllustrations()}
-                        {renderSteps()}
-                    </View>
-                    <View style = {{width: "80%", alignSelf: "center"}}>
-                        <Text style = {{
-                            fontSize: 15,
-                            textAlign: "center",
-                            paddingTop: 10, 
-                            color: "brown"
-                        }}>
-                            I always put all of my heart, my passion to every single bake I make - Daniel 
-                        </Text>
-                    </View>
-                </Block>
-                {/* Products */}
-                <Block>
-                    <View style = {{
-                        alignItems: "center"
-                    }}>
-                        <Text style = {{
-                            alignContent: "center",
-                            fontSize: 20,
-                            marginBottom: 15,
-                            fontWeight: "bold"
-                        }}>
-                            What's New
-                        </Text>
-                    </View>
-                    <View style = {{width: "100%"}}>
-                        <FlatList
-                            numColumns = {1}
-                            keyExtractor = {(item) => item.id}
-                            data={productList}
-                            horizontal 
-                            renderItem={({ item }) => (
-                                <View style = {styles.productmain}>
-                                    <View style = {styles.box}>
-                                        {/* <View style={styles.text}> */}
-                                            <View style = {styles.insidebox}>
-                                                <Button
-                                                    style = {styles.productdisplay}
-                                                    onPress = {() => {
-                                                        navigation.navigate("ProductDetails");
-                                                        dispatch(getProductID(item.id));
-                                                    }}
-                                                >
-                                                <Image 
-                                                    style = {styles.image}
-                                                    source={item.image}
-                                                />
-                                                <Text style = {{textAlign: 'center', fontWeight: "bold", paddingBottom: 5, paddingTop: 10}}>
-                                                    {item.title}
-                                                </Text>
-                                                <Text style = {{textAlign: 'center', color: "grey"}}>
-                                                    ${item.price}
-                                                </Text>           
-                                                </Button>
-                                            </View>
-                                    </View>
-                                </View>
-                                // </View>
-                            )}
-                            />
-                    </View>
-                </Block>
-            {/* Recipes  */}
-            <Block>
-                <View style = {{
-                    alignItems: "center",
-                }}>
-                    <Text style = {{
-                        alignContent: "center",
-                        fontSize: 20,
-                        marginBottom: 15, 
-                        marginTop: 20,
-                        fontWeight: "bold"
-                    }}>
-                        Catalogues & Recipes
-                    </Text>
-                </View>
-                <View style = {{width: "100%"}}>
-                    <FlatList
-                        numColumns = {1}
-                        keyExtractor = {(item) => item.id}
-                        data={productList}
-                        horizontal 
-                        renderItem={({ item }) => (
-                            <View style = {styles.productmain}>
-                               <View style = {styles.box}>
-                                    {/* <View style={styles.text}> */}
-                                        <View style = {styles.insidebox}>
-                                            <Button
-                                                style = {styles.productdisplay}
-                                                onPress = {() => {
-                                                    navigation.navigate("RecipeDetails");
-                                                    dispatch(getProductID(item.id));
-                                                }}
-                                            >
-                                            <Image 
-                                                style = {styles.image}
-                                                source={item.image}
-                                            />
-                                            <Text style = {{textAlign: 'center', fontWeight: "bold", paddingBottom: 5, paddingTop: 10}}>
-                                                {item.title}
-                                            </Text>
-                                            </Button>
+        <ProjectConsumer>
+            {value => {
+                const {
+                    latestList
+                } = value
+
+                return (
+                    <>
+                    <ImageBackground source = {require("../../assets/bake/background.jpg")} style = {{width: "100%", height: "100%"}}>
+                                <ScrollView>    
+                                    <View>
+                                    <Block>
+                                        <View style = {{paddingTop: 10}}>
+                                            {renderIllustrations()}
+                                            {renderSteps()}
                                         </View>
+                                        <View style = {{width: "80%", alignSelf: "center"}}>
+                                            <Text style = {{
+                                                fontSize: 15,
+                                                textAlign: "center",
+                                                paddingTop: 10, 
+                                                color: "brown"
+                                            }}>
+                                                I always put all of my heart, my passion to every single bake I make - Daniel 
+                                            </Text>
+                                        </View>
+                                    </Block>
+                                    {/* Products */}
+                                    <Block>
+                                        <View style = {{
+                                            alignItems: "center"
+                                        }}>
+                                            <Text style = {{
+                                                alignContent: "center",
+                                                fontSize: 20,
+                                                marginBottom: 15,
+                                                fontWeight: "bold"
+                                            }}>
+                                                What's New
+                                            </Text>
+                                        </View>
+                                        <View style = {{width: "100%"}}>
+                                            <FlatList
+                                                numColumns = {1}
+                                                keyExtractor = {(item) => item.id}
+                                                data={latestList}
+                                                horizontal 
+                                                renderItem={({ item }) => (
+                                                    <View style = {styles.productmain}>
+                                                        <View style = {styles.box}>
+                                                            {/* <View style={styles.text}> */}
+                                                                <View style = {styles.insidebox}>
+                                                                    <Button
+                                                                        style = {styles.productdisplay}
+                                                                        onPress = {() => {
+                                                                            navigation.navigate("ProductDetails");
+                                                                            dispatch(getProductID(item.id));
+                                                                        }}
+                                                                    >
+                                                                    <Image 
+                                                                        style = {styles.image}
+                                                                        source={item.image}
+                                                                    />
+                                                                    <Text style = {{textAlign: 'center', fontWeight: "bold", paddingBottom: 5, paddingTop: 10}}>
+                                                                        {item.title}
+                                                                    </Text>
+                                                                    <Text style = {{textAlign: 'center', color: "grey"}}>
+                                                                        ${item.price}
+                                                                    </Text>           
+                                                                    </Button>
+                                                                </View>
+                                                        </View>
+                                                    </View>
+                                                    // </View>
+                                                )}
+                                                />
+                                        </View>
+                                    </Block>
+                                {/* Recipes  */}
+                                <Block>
+                                    <View style = {{
+                                        alignItems: "center",
+                                    }}>
+                                        <Text style = {{
+                                            alignContent: "center",
+                                            fontSize: 20,
+                                            marginBottom: 15, 
+                                            marginTop: 20,
+                                            fontWeight: "bold"
+                                        }}>
+                                            Catalogues & Recipes
+                                        </Text>
                                     </View>
-                                </View>
-                            // </View>
-                        )}
-                        />
-                </View>
-            </Block>
-        </View>
-        </ScrollView>
-    </ImageBackground> 
+                                    <View style = {{width: "100%"}}>
+                                        <FlatList
+                                            numColumns = {1}
+                                            keyExtractor = {(item) => item.id}
+                                            data={latestList}
+                                            horizontal 
+                                            renderItem={({ item }) => (
+                                                <View style = {styles.productmain}>
+                                                <View style = {styles.box}>
+                                                        {/* <View style={styles.text}> */}
+                                                            <View style = {styles.insidebox}>
+                                                                <Button
+                                                                    style = {styles.productdisplay}
+                                                                    onPress = {() => {
+                                                                        navigation.navigate("RecipeDetails");
+                                                                        dispatch(getProductID(item.id));
+                                                                    }}
+                                                                >
+                                                                <Image 
+                                                                    style = {styles.image}
+                                                                    source={item.image}
+                                                                />
+                                                                <Text style = {{textAlign: 'center', fontWeight: "bold", paddingBottom: 5, paddingTop: 10}}>
+                                                                    {item.title}
+                                                                </Text>
+                                                                </Button>
+                                                            </View>
+                                                        </View>
+                                                    </View>
+                                                // </View>
+                                            )}
+                                            />
+                                    </View>
+                                </Block>
+                            </View>
+                            </ScrollView>
+                        </ImageBackground> 
+                    </>
+                )
+            }}
+        </ProjectConsumer>
         </>
     )
 }

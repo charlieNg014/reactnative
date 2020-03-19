@@ -8,7 +8,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import {TouchableOpacity } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux'
-import {getProductID, addToCart, updateInCart} from "../../../redux"
+import {getProductID, addToCart, updateInCart, updateCart} from "../../../redux"
 import {productList} from "../../../data"
 import {ProjectConsumer} from "../../../context";
 
@@ -22,14 +22,8 @@ const ProductTest = ({navigation}) => {
     // console.log(updatedProductList);
 
     //get the latest productlist
-    const latestProductList = useSelector(state => state.updateInCart.inCartProductList);
+    const latestProductList = useSelector(state => state.updateCart.updateCart);
     // console.log(latestProductList);
-
-    if (latestProductList.length === 0) {
-        dispatch(updateInCart(productList));
-    } else {
-        // console.log(productList);
-    }
 
     for (var i = 0; i < updatedProductList.length; i++) {
         // console.log(updatedProductList[i].id);
@@ -43,9 +37,21 @@ const ProductTest = ({navigation}) => {
         }
     }
 
+    let [displayProduct, setDisplayProduct] = useState({});
+
+    // if (latestProductList.length === 0 ) {
+        // displayProduct = productList.find((filterProduct) => filterProduct.id === productID)
+        // displayProduct = productList.find((filterProduct) => filterProduct.id === productID);
+    // } else {
+        // console.log("not")
+        // console.log(latestProductList.find((filterProduct) => filterProduct.id === productID))
+        // displayProduct = latestProductList.find((filterProduct) => filterProduct.id === productID)
+    // }
+
     //changing the state of cart for specific product
     let [newDisplayProduct, setNewDisplayProduct] = useState({});
-    const displayProduct = productList.find((filterProduct) => filterProduct.id === productID);
+    // displayProduct = productList.find((filterProduct) => filterProduct.id === productID);
+    
     // console.log(displayProduct);
 
     const changeCartState = (requiredItem) => {
@@ -100,10 +106,12 @@ const ProductTest = ({navigation}) => {
         <ProjectConsumer>
             {value => {
                 const {
-                    listProduct,
+                    latestList,
                     addProduct
                 } = value;
-                // console.log(listProduct);
+                // console.log(latestList);
+                let displayProduct = latestList.find((filterProduct) => filterProduct.id === productID);
+                // console.log(latestList.find((filterProduct) => filterProduct.id === productID))
                 return (
                     <>
                     <ScrollView>
@@ -170,9 +178,7 @@ const ProductTest = ({navigation}) => {
                             {!displayProduct.inCart 
                             ? <Button style = {styles.favbutton} onPress = {() => {
                                 showAlert();
-                                changeCartState(displayProduct);
-                                dispatch(addToCart(newDisplayProduct));
-                                addProduct(newDisplayProduct);
+                                addProduct(displayProduct);
                             }}
                             >
                             <Text>
